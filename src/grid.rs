@@ -18,6 +18,10 @@ impl Grid {
         cell_x
     }
 
+    pub fn update_screen_size(&mut self, new_screen_size: (f32, f32)) {
+        self.screen_size = new_screen_size;
+    }
+
     fn cell_center_coordinate(&self, index: i32, total_num_cells: i32, total_size: f32) -> f32 {
         (total_size / (total_num_cells as f32)) * (0.50 + (index as f32))
     }
@@ -56,5 +60,17 @@ mod tests_grid {
             screen_size: (3000.0, 300.0),
         }; // cell sizes: 1000 and 100
         assert_eq!{grid.get_cell_size(), (100.0)}
+    }
+
+    #[test]
+    fn update_screen_size_dinamically() {
+        let mut grid = Grid {
+            number_of_cells: (3, 3),
+            screen_size: (300.0, 300.0),
+        };
+        assert_eq!{grid.screen_size, (300.0, 300.0)}
+        let new_screen_size = (600.0, 450.0);
+        grid.update_screen_size(new_screen_size);
+        assert_eq!{grid.screen_size, new_screen_size}
     }
 }
