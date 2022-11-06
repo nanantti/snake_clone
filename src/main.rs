@@ -15,11 +15,12 @@ async fn main() {
         number_of_cells: (9, 9),
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
-    let player_index = (1, 1);
+    let mut player = player::Player::new((5, 5));
     loop {
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
         engine::clear_background();
-        let player_coord = grid.get_cell_center(player_index);
+        player.update(&engine::get_active_move_keys());
+        let player_coord = grid.get_cell_center(player.get_location());
         engine::draw_circle(player_coord.0, player_coord.1, grid.get_cell_size() * 0.50);
         engine::await_next_frame().await
     }
