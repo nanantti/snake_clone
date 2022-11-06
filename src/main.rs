@@ -9,13 +9,21 @@ pub struct MoveKeys {
     pub right: bool,
 }
 
+// TODO:
+// limit FPS
+// add wraparound
+// plot snake body
+// add fruit
+// add interaction between snake and fruit
+// make game faster as snake grows
+
 #[macroquad::main("Snake")]
 async fn main() {
     let mut grid = grid::Grid {
-        number_of_cells: (9, 9),
+        number_of_cells: (99, 99),
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
-    let mut player = player::Player::new((5, 5));
+    let mut player = player::Player::new((50, 50));
     loop {
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
         engine::clear_background();
