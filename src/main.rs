@@ -7,7 +7,7 @@ async fn main() {
         number_of_cells: (3, 3),
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
-    let player_index = (1,1);
+    let player_index = (1, 1);
     loop {
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
         engine::clear_background();

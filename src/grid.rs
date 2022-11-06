@@ -5,8 +5,10 @@ pub struct Grid {
 
 impl Grid {
     pub fn get_cell_center(&self, cell_indexes: (i32, i32)) -> (f32, f32) {
-        (self.cell_center_coordinate(cell_indexes.0, self.number_of_cells.0, self.screen_size.0),
-        self.cell_center_coordinate(cell_indexes.1, self.number_of_cells.1, self.screen_size.1))
+        (
+            self.cell_center_coordinate(cell_indexes.0, self.number_of_cells.0, self.screen_size.0),
+            self.cell_center_coordinate(cell_indexes.1, self.number_of_cells.1, self.screen_size.1),
+        )
     }
 
     pub fn get_cell_size(&self) -> f32 {
@@ -37,11 +39,11 @@ mod tests_grid {
             number_of_cells: (3, 3),
             screen_size: (300.0, 300.0),
         };
-        assert_eq!{grid.get_cell_center((0, 0)), (50.0, 50.0)}
-        assert_eq!{grid.get_cell_center((1, 0)), (150.0, 50.0)}
-        assert_eq!{grid.get_cell_center((0, 1)), (50.0, 150.0)}
-        assert_eq!{grid.get_cell_center((2, 2)), (250.0, 250.0)}
-        assert_eq!{grid.get_cell_size(), (100.0)}
+        assert_eq! {grid.get_cell_center((0, 0)), (50.0, 50.0)}
+        assert_eq! {grid.get_cell_center((1, 0)), (150.0, 50.0)}
+        assert_eq! {grid.get_cell_center((0, 1)), (50.0, 150.0)}
+        assert_eq! {grid.get_cell_center((2, 2)), (250.0, 250.0)}
+        assert_eq! {grid.get_cell_size(), (100.0)}
     }
 
     #[test]
@@ -50,7 +52,7 @@ mod tests_grid {
             number_of_cells: (3, 3),
             screen_size: (300.0, 3000.0),
         }; // cell sizes: 100 and 1000
-        assert_eq!{grid.get_cell_size(), (100.0)}
+        assert_eq! {grid.get_cell_size(), (100.0)}
     }
 
     #[test]
@@ -59,7 +61,7 @@ mod tests_grid {
             number_of_cells: (3, 3),
             screen_size: (3000.0, 300.0),
         }; // cell sizes: 1000 and 100
-        assert_eq!{grid.get_cell_size(), (100.0)}
+        assert_eq! {grid.get_cell_size(), (100.0)}
     }
 
     #[test]
@@ -68,9 +70,9 @@ mod tests_grid {
             number_of_cells: (3, 3),
             screen_size: (300.0, 300.0),
         };
-        assert_eq!{grid.screen_size, (300.0, 300.0)}
+        assert_eq! {grid.screen_size, (300.0, 300.0)}
         let new_screen_size = (600.0, 450.0);
         grid.update_screen_size(new_screen_size);
-        assert_eq!{grid.screen_size, new_screen_size}
+        assert_eq! {grid.screen_size, new_screen_size}
     }
 }
