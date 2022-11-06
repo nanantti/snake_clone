@@ -7,6 +7,14 @@ pub fn draw_circle(x: f32, y: f32, r: f32) {
     macroquad::prelude::draw_circle_lines(x, y_transform(y), r, 2.0, macroquad::prelude::BLUE);
 }
 
+pub fn get_screen_height() -> f32 {
+    macroquad::prelude::screen_height()
+}
+
+pub fn get_screen_width() -> f32 {
+    macroquad::prelude::screen_width()
+}
+
 fn y_transform(y: f32) -> f32 {
     (macroquad::prelude::screen_height() as f32) - y
 }
