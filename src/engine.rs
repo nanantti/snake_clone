@@ -1,3 +1,5 @@
+use super::MoveKeys;
+
 // Graphics
 pub fn clear_background() {
     macroquad::prelude::clear_background(macroquad::prelude::GRAY);
@@ -25,12 +27,6 @@ pub async fn await_next_frame() {
 }
 
 // Input
-pub struct MoveKeys {
-    pub up: bool,
-    pub down: bool,
-    pub left: bool,
-    pub right: bool,
-}
 
 pub fn get_active_move_keys() -> MoveKeys {
     MoveKeys {

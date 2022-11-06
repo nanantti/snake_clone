@@ -1,10 +1,18 @@
 mod engine;
 mod grid;
+mod player;
+
+pub struct MoveKeys {
+    pub up: bool,
+    pub down: bool,
+    pub left: bool,
+    pub right: bool,
+}
 
 #[macroquad::main("Snake")]
 async fn main() {
     let mut grid = grid::Grid {
-        number_of_cells: (3, 3),
+        number_of_cells: (9, 9),
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
     let player_index = (1, 1);
