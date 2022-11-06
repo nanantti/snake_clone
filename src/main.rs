@@ -1,4 +1,5 @@
 mod engine;
+mod grid;
 
 #[macroquad::main("Snake")]
 async fn main() {
