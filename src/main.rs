@@ -10,7 +10,6 @@ pub struct MoveKeys {
 }
 
 // TODO:
-// add wraparound
 // plot snake body
 // add fruit
 // add interaction between snake and fruit
@@ -23,10 +22,10 @@ async fn main() {
         number_of_cells: (99, 99),
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
-    let mut player = player::Player::new((50, 50));
+    let mut player = player::Player::new((50, 50), &grid.number_of_cells);
     loop {
         let timestamp_start_frame = engine::get_time();
-        grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
+        //grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
         engine::clear_background();
         player.update(&engine::get_active_move_keys());
         let player_coord = grid.get_cell_center(player.get_location());
