@@ -22,8 +22,11 @@ pub async fn await_next_frame() {
     macroquad::prelude::next_frame().await
 }
 
-// Input
+pub fn get_time() -> f64 {
+    macroquad::prelude::get_time()
+}
 
+// Input
 pub fn get_active_move_keys() -> MoveKeys {
     MoveKeys {
         up: macroquad::prelude::is_key_down(macroquad::prelude::KeyCode::W),

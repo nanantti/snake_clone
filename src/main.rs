@@ -10,7 +10,6 @@ pub struct MoveKeys {
 }
 
 // TODO:
-// limit FPS
 // add wraparound
 // plot snake body
 // add fruit
@@ -19,17 +18,21 @@ pub struct MoveKeys {
 
 #[macroquad::main("Snake")]
 async fn main() {
+    const frame_duration_seconds: f64 = 1.0 / 10.0;
     let mut grid = grid::Grid {
         number_of_cells: (99, 99),
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
     let mut player = player::Player::new((50, 50));
     loop {
+        let timestamp_start_frame = engine::get_time();
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
         engine::clear_background();
         player.update(&engine::get_active_move_keys());
         let player_coord = grid.get_cell_center(player.get_location());
         engine::draw_circle(player_coord.0, player_coord.1, grid.get_cell_size() * 0.50);
+
+        while engine::get_time() - timestamp_start_frame < frame_duration_seconds {}
         engine::await_next_frame().await
     }
 }
