@@ -18,12 +18,12 @@ pub struct MoveKeys {
 #[macroquad::main("Snake")]
 async fn main() {
     const frame_duration_seconds: f64 = 1.0 / 10.0;
-    let n_cells = (99, 99);
+    let n_cells = (24, 24);
     let mut grid = grid::Grid {
         number_of_cells: &n_cells,
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
-    let mut player = player::Player::new((50, 50), &n_cells);
+    let mut player = player::Player::new((12, 12), &n_cells);
     loop {
         let timestamp_start_frame = engine::get_time();
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));

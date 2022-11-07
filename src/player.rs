@@ -72,14 +72,12 @@ impl Player<'_> {
     fn check_warparound(&mut self) {
         if self.location.0 < 0 {
             self.location.0 = self.number_of_cells.0;
-        }
-        if self.location.0 > self.number_of_cells.0 {
+        } else if self.location.0 >= self.number_of_cells.0 {
             self.location.0 = 0;
         }
         if self.location.1 < 0 {
             self.location.1 = self.number_of_cells.1;
-        }
-        if self.location.1 > self.number_of_cells.1 {
+        } else if self.location.1 >= self.number_of_cells.1 {
             self.location.1 = 0;
         }
     }
@@ -127,39 +125,39 @@ mod tests_grid {
 
     #[test]
     fn player_starts_moving_left() {
-        let mut player = Player::new((5, 5), &cell_size);
+        let mut player = Player::new((4, 4), &cell_size);
 
-        assert_eq!(player.get_location(), (5, 5));
+        assert_eq!(player.get_location(), (4, 4));
         player.update(&no_press);
-        assert_eq!(player.get_location(), (4, 5));
+        assert_eq!(player.get_location(), (3, 4));
         player.update(&no_press);
-        assert_eq!(player.get_location(), (3, 5));
+        assert_eq!(player.get_location(), (2, 4));
     }
 
     #[test]
     fn player_turns_up() {
-        let mut player = Player::new((5, 5), &cell_size);
+        let mut player = Player::new((4, 4), &cell_size);
 
-        assert_eq!(player.get_location(), (5, 5));
-        player.update(&no_press);
-        assert_eq!(player.get_location(), (4, 5));
-        player.update(&up_press);
         assert_eq!(player.get_location(), (4, 4));
         player.update(&no_press);
-        assert_eq!(player.get_location(), (4, 3));
+        assert_eq!(player.get_location(), (3, 4));
+        player.update(&up_press);
+        assert_eq!(player.get_location(), (3, 3));
+        player.update(&no_press);
+        assert_eq!(player.get_location(), (3, 2));
     }
 
     #[test]
     fn player_cannot_180() {
-        let mut player = Player::new((5, 5), &cell_size); // Player starts going left
+        let mut player = Player::new((4, 4), &cell_size); // Player starts going left
 
-        assert_eq!(player.get_location(), (5, 5));
+        assert_eq!(player.get_location(), (4, 4));
         player.update(&no_press);
-        assert_eq!(player.get_location(), (4, 5));
+        assert_eq!(player.get_location(), (3, 4));
         player.update(&right_press); // Player receives right command
-        assert_eq!(player.get_location(), (3, 5));
+        assert_eq!(player.get_location(), (2, 4));
         player.update(&no_press); // Right command is ignored, left continues
-        assert_eq!(player.get_location(), (2, 5));
+        assert_eq!(player.get_location(), (1, 4));
     }
 
     #[test]
@@ -179,9 +177,9 @@ mod tests_grid {
 
         assert_eq!(player.get_location(), (4, 4));
         player.update(&down_press);
-        assert_eq!(player.get_location(), (4, 5));
-        player.update(&down_press);
         assert_eq!(player.get_location(), (4, 0));
+        player.update(&down_press);
+        assert_eq!(player.get_location(), (4, 1));
     }
 
     #[test]
@@ -189,12 +187,12 @@ mod tests_grid {
         let mut player = Player::new((4, 4), &cell_size);
 
         assert_eq!(player.get_location(), (4, 4));
-        player.update(&down_press);
-        assert_eq!(player.get_location(), (4, 5));
+        player.update(&up_press);
+        assert_eq!(player.get_location(), (4, 3));
         player.update(&right_press);
-        assert_eq!(player.get_location(), (5, 5));
+        assert_eq!(player.get_location(), (0, 3));
         player.update(&no_press);
-        assert_eq!(player.get_location(), (0, 5));
+        assert_eq!(player.get_location(), (1, 3));
     }
 
     #[test]

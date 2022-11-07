@@ -1,5 +1,5 @@
 pub struct Grid<'a> {
-    pub number_of_cells: &'a(i32, i32),
+    pub number_of_cells: &'a (i32, i32),
     pub screen_size: (f32, f32),
 }
 
