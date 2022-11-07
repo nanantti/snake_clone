@@ -1,9 +1,9 @@
-pub struct Grid {
-    pub number_of_cells: (i32, i32),
+pub struct Grid<'a> {
+    pub number_of_cells: &'a(i32, i32),
     pub screen_size: (f32, f32),
 }
 
-impl Grid {
+impl Grid<'_> {
     pub fn get_cell_center(&self, cell_indexes: (i32, i32)) -> (f32, f32) {
         (
             self.cell_center_coordinate(cell_indexes.0, self.number_of_cells.0, self.screen_size.0),
@@ -32,11 +32,11 @@ impl Grid {
 #[cfg(test)]
 mod tests_grid {
     use super::*;
-
+    const n_cells: (i32, i32) = (3, 3);
     #[test]
     fn cell_center_coordinates() {
         let grid = Grid {
-            number_of_cells: (3, 3),
+            number_of_cells: &n_cells,
             screen_size: (300.0, 300.0),
         };
         assert_eq! {grid.get_cell_center((0, 0)), (50.0, 50.0)}
@@ -49,7 +49,7 @@ mod tests_grid {
     #[test]
     fn cell_size_gets_minimum_across_axis_y() {
         let grid = Grid {
-            number_of_cells: (3, 3),
+            number_of_cells: &n_cells,
             screen_size: (300.0, 3000.0),
         }; // cell sizes: 100 and 1000
         assert_eq! {grid.get_cell_size(), (100.0)}
@@ -58,7 +58,7 @@ mod tests_grid {
     #[test]
     fn cell_size_gets_minimum_across_axis_x() {
         let grid = Grid {
-            number_of_cells: (3, 3),
+            number_of_cells: &n_cells,
             screen_size: (3000.0, 300.0),
         }; // cell sizes: 1000 and 100
         assert_eq! {grid.get_cell_size(), (100.0)}
@@ -67,7 +67,7 @@ mod tests_grid {
     #[test]
     fn update_screen_size_dinamically() {
         let mut grid = Grid {
-            number_of_cells: (3, 3),
+            number_of_cells: &n_cells,
             screen_size: (300.0, 300.0),
         };
         assert_eq! {grid.screen_size, (300.0, 300.0)}
