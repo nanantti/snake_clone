@@ -6,7 +6,7 @@ pub fn clear_background() {
 }
 
 pub fn draw_circle(x: f32, y: f32, r: f32) {
-    macroquad::prelude::draw_circle_lines(x, y, r, 2.0, macroquad::prelude::BLUE);
+    macroquad::prelude::draw_circle(x, y, r, macroquad::prelude::BLUE);
 }
 
 pub fn get_screen_height() -> f32 {
