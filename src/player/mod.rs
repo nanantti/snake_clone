@@ -1,4 +1,5 @@
 use super::MoveKeys;
+mod body;
 mod head;
 
 pub struct Player<'a> {
