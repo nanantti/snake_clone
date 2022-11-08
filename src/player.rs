@@ -20,7 +20,7 @@ impl Player<'_> {
     }
 
     pub fn update(&mut self, keys: &MoveKeys) {
-        self.update_direction(&keys);
+        self.update_direction(keys);
         self.update_location();
         self.check_warparound();
     }
