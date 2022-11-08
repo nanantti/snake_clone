@@ -32,11 +32,11 @@ impl Grid<'_> {
 #[cfg(test)]
 mod tests_grid {
     use super::*;
-    const n_cells: (i32, i32) = (3, 3);
+    const N_CELLS: (i32, i32) = (3, 3);
     #[test]
     fn cell_center_coordinates() {
         let grid = Grid {
-            number_of_cells: &n_cells,
+            number_of_cells: &N_CELLS,
             screen_size: (300.0, 300.0),
         };
         assert_eq! {grid.get_cell_center((0, 0)), (50.0, 50.0)}
@@ -49,7 +49,7 @@ mod tests_grid {
     #[test]
     fn cell_size_gets_minimum_across_axis_y() {
         let grid = Grid {
-            number_of_cells: &n_cells,
+            number_of_cells: &N_CELLS,
             screen_size: (300.0, 3000.0),
         }; // cell sizes: 100 and 1000
         assert_eq! {grid.get_cell_size(), (100.0)}
@@ -58,7 +58,7 @@ mod tests_grid {
     #[test]
     fn cell_size_gets_minimum_across_axis_x() {
         let grid = Grid {
-            number_of_cells: &n_cells,
+            number_of_cells: &N_CELLS,
             screen_size: (3000.0, 300.0),
         }; // cell sizes: 1000 and 100
         assert_eq! {grid.get_cell_size(), (100.0)}
@@ -67,7 +67,7 @@ mod tests_grid {
     #[test]
     fn update_screen_size_dinamically() {
         let mut grid = Grid {
-            number_of_cells: &n_cells,
+            number_of_cells: &N_CELLS,
             screen_size: (300.0, 300.0),
         };
         assert_eq! {grid.screen_size, (300.0, 300.0)}

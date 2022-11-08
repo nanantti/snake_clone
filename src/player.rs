@@ -93,116 +93,116 @@ enum MoveDirection {
 #[cfg(test)]
 mod tests_grid {
     use super::*;
-    const no_press: MoveKeys = MoveKeys {
+    const NO_PRESS: MoveKeys = MoveKeys {
         up: false,
         down: false,
         left: false,
         right: false,
     };
 
-    const up_press: MoveKeys = MoveKeys {
+    const UP_PRESS: MoveKeys = MoveKeys {
         up: true,
         down: false,
         left: false,
         right: false,
     };
 
-    const down_press: MoveKeys = MoveKeys {
+    const DOWN_PRESS: MoveKeys = MoveKeys {
         up: false,
         down: true,
         left: false,
         right: false,
     };
 
-    const right_press: MoveKeys = MoveKeys {
+    const RIGHT_PRESS: MoveKeys = MoveKeys {
         up: false,
         down: false,
         left: false,
         right: true,
     };
 
-    const cell_size: (i32, i32) = (5, 5);
+    const CELL_SIZE: (i32, i32) = (5, 5);
 
     #[test]
     fn player_starts_moving_left() {
-        let mut player = Player::new((4, 4), &cell_size);
+        let mut player = Player::new((4, 4), &CELL_SIZE);
 
         assert_eq!(player.get_location(), (4, 4));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (3, 4));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (2, 4));
     }
 
     #[test]
     fn player_turns_up() {
-        let mut player = Player::new((4, 4), &cell_size);
+        let mut player = Player::new((4, 4), &CELL_SIZE);
 
         assert_eq!(player.get_location(), (4, 4));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (3, 4));
-        player.update(&up_press);
+        player.update(&UP_PRESS);
         assert_eq!(player.get_location(), (3, 3));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (3, 2));
     }
 
     #[test]
     fn player_cannot_180() {
-        let mut player = Player::new((4, 4), &cell_size); // Player starts going left
+        let mut player = Player::new((4, 4), &CELL_SIZE); // Player starts going left
 
         assert_eq!(player.get_location(), (4, 4));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (3, 4));
-        player.update(&right_press); // Player receives right command
+        player.update(&RIGHT_PRESS); // Player receives right command
         assert_eq!(player.get_location(), (2, 4));
-        player.update(&no_press); // Right command is ignored, left continues
+        player.update(&NO_PRESS); // Right command is ignored, left continues
         assert_eq!(player.get_location(), (1, 4));
     }
 
     #[test]
     fn player_warparound_left() {
-        let mut player = Player::new((1, 1), &cell_size);
+        let mut player = Player::new((1, 1), &CELL_SIZE);
 
         assert_eq!(player.get_location(), (1, 1));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (0, 1));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (5, 1));
     }
 
     #[test]
     fn player_warparound_down() {
-        let mut player = Player::new((4, 4), &cell_size);
+        let mut player = Player::new((4, 4), &CELL_SIZE);
 
         assert_eq!(player.get_location(), (4, 4));
-        player.update(&down_press);
+        player.update(&DOWN_PRESS);
         assert_eq!(player.get_location(), (4, 0));
-        player.update(&down_press);
+        player.update(&DOWN_PRESS);
         assert_eq!(player.get_location(), (4, 1));
     }
 
     #[test]
     fn player_warparound_right() {
-        let mut player = Player::new((4, 4), &cell_size);
+        let mut player = Player::new((4, 4), &CELL_SIZE);
 
         assert_eq!(player.get_location(), (4, 4));
-        player.update(&up_press);
+        player.update(&UP_PRESS);
         assert_eq!(player.get_location(), (4, 3));
-        player.update(&right_press);
+        player.update(&RIGHT_PRESS);
         assert_eq!(player.get_location(), (0, 3));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (1, 3));
     }
 
     #[test]
     fn player_warparound_up() {
-        let mut player = Player::new((1, 1), &cell_size);
+        let mut player = Player::new((1, 1), &CELL_SIZE);
 
         assert_eq!(player.get_location(), (1, 1));
-        player.update(&up_press);
+        player.update(&UP_PRESS);
         assert_eq!(player.get_location(), (1, 0));
-        player.update(&no_press);
+        player.update(&NO_PRESS);
         assert_eq!(player.get_location(), (1, 5));
     }
 }
