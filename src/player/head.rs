@@ -1,4 +1,4 @@
-use super::MoveKeys;
+use super::super::MoveKeys;
 
 pub struct Head<'a> {
     pub location: (i32, i32),
