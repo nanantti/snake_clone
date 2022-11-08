@@ -9,7 +9,7 @@ pub struct MoveKeys {
     pub right: bool,
 }
 
-fn draw_player(pl: &player::Player, gd: &grid::Grid) {
+fn draw_player(pl: &player::Head, gd: &grid::Grid) {
     let player_coord = gd.get_cell_center(pl.get_location());
     engine::draw_circle(player_coord.0, player_coord.1, gd.get_cell_size() * 0.50);
 }
@@ -28,7 +28,7 @@ async fn main() {
         number_of_cells: &n_cells,
         screen_size: (engine::get_screen_width(), engine::get_screen_height()),
     };
-    let mut player = player::Player::new((12, 12), &n_cells);
+    let mut player = player::Head::new((12, 12), &n_cells);
     let mut last_step_time = engine::get_time();
     loop {
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
