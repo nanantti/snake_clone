@@ -15,7 +15,7 @@ impl Body {
         self.sections.push_back(new_tile);
     }
 
-    pub fn drop(&mut self) {
+    pub fn drop_last(&mut self) {
         self.sections.pop_front();
     }
 }
@@ -51,7 +51,7 @@ mod tests_grid {
         let mut body = Body::new();
         body.add((0, 0));
         body.add((1, 1));
-        body.drop();
+        body.drop_last();
         assert_eq! {body.sections[0], (1, 1)}
     }
 }
