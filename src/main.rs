@@ -10,7 +10,6 @@ pub struct MoveKeys {
 }
 
 // TODO:
-// plot snake body
 // add fruit
 // add interaction between snake and fruit
 // make game faster as snake grows
@@ -32,7 +31,7 @@ async fn main() {
 
         let current_time = engine::get_time();
         if current_time - last_step_time > STEP_DURATION_SECONDS {
-            player.update(&engine::get_active_move_keys(), false);
+            player.update(&engine::get_active_move_keys(), true);
             last_step_time = current_time;
         }
         engine::await_next_frame().await
