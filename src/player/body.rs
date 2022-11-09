@@ -27,6 +27,10 @@ impl Body {
         }
         false
     }
+
+    pub fn get_locations(&self) -> &VecDeque<(i32, i32)> {
+        &self.sections
+    }
 }
 
 #[cfg(test)]
@@ -51,8 +55,9 @@ mod tests {
         let mut body = Body::new();
         body.add((0, 0));
         body.add((1, 1));
-        assert_eq! {body.sections[0], (0, 0)}
-        assert_eq! {body.sections[1], (1, 1)}
+
+        let loc = VecDeque::from([(0, 0), (1, 1)]);
+        assert_eq! {body.get_locations(), &loc}
     }
 
     #[test]
@@ -61,7 +66,8 @@ mod tests {
         body.add((0, 0));
         body.add((1, 1));
         body.drop_last();
-        assert_eq! {body.sections[0], (1, 1)}
+        let loc = VecDeque::from([(1, 1)]);
+        assert_eq! {body.get_locations(), &loc}
     }
 
     #[test]

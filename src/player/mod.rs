@@ -1,4 +1,6 @@
 use super::MoveKeys;
+use super::engine;
+use super::grid;
 mod body;
 mod head;
 
@@ -25,6 +27,26 @@ impl Player<'_> {
 
     pub fn get_head_location(&self) -> (i32, i32) {
         self.head.get_location()
+    }
+
+    pub fn draw(&self, gd: &grid::Grid) {
+        self.draw_head(gd);
+        self.draw_body(gd);
+    }
+
+    fn draw_head(&self, gd: &grid::Grid) {
+        self.draw_circle_in_tile(self.get_head_location(), gd);
+    }
+
+    fn draw_body(&self, gd: &grid::Grid) {
+        for section in self.body.get_locations() {
+            self.draw_circle_in_tile(*section, gd);
+        }
+    }
+
+    fn draw_circle_in_tile(&self, tile: (i32, i32), gd: &grid::Grid) {
+        let center = gd.get_cell_center(tile);
+        engine::draw_circle(center.0, center.1, gd.get_cell_size() * 0.50);
     }
 }
 

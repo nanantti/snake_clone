@@ -9,11 +9,6 @@ pub struct MoveKeys {
     pub right: bool,
 }
 
-fn draw_player(pl: &player::Player, gd: &grid::Grid) {
-    let player_coord = gd.get_cell_center(pl.get_head_location());
-    engine::draw_circle(player_coord.0, player_coord.1, gd.get_cell_size() * 0.50);
-}
-
 // TODO:
 // plot snake body
 // add fruit
@@ -33,7 +28,7 @@ async fn main() {
     loop {
         grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
         engine::clear_background();
-        draw_player(&player, &grid);
+        player.draw(&grid);
 
         let current_time = engine::get_time();
         if current_time - last_step_time > STEP_DURATION_SECONDS {
