@@ -25,6 +25,15 @@ impl Head<'_> {
         self.check_warparound();
     }
 
+    pub fn get_angle(&self) -> f32 {
+        match self.direction {
+            MoveDirection::Up => 0.0,
+            MoveDirection::Down => 180.0,
+            MoveDirection::Left => 270.0,
+            MoveDirection::Right => 90.0,
+        }
+    }
+
     fn update_direction(&mut self, keys: &MoveKeys) {
         if self.is_reverse_direction(keys) {
             return;
@@ -204,5 +213,18 @@ mod tests_grid {
         assert_eq!(head.get_location(), (1, 0));
         head.update(&NO_PRESS);
         assert_eq!(head.get_location(), (1, 5));
+    }
+
+    #[test]
+    fn head_angle() {
+        let mut head = Head::new((1, 1), &CELL_SIZE);
+
+        assert_eq!(head.get_angle(), 270.0);
+        head.update(&UP_PRESS);
+        assert_eq!(head.get_angle(), 0.0);
+        head.update(&RIGHT_PRESS);
+        assert_eq!(head.get_angle(), 90.0);
+        head.update(&DOWN_PRESS);
+        assert_eq!(head.get_angle(), 180.0);
     }
 }

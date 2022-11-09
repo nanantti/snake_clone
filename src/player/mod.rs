@@ -35,7 +35,13 @@ impl Player<'_> {
     }
 
     fn draw_head(&self, gd: &grid::Grid) {
-        self.draw_circle_in_tile(self.get_head_location(), gd);
+        let center = gd.get_cell_center(self.get_head_location());
+        engine::draw_triangle(
+            center.0,
+            center.1,
+            gd.get_cell_size(),
+            self.head.get_angle(),
+        );
     }
 
     fn draw_body(&self, gd: &grid::Grid) {

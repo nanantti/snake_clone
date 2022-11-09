@@ -13,6 +13,7 @@ pub struct MoveKeys {
 // add fruit
 // add interaction between snake and fruit
 // make game faster as snake grows
+// add game over if snake touches self
 
 #[macroquad::main("Snake")]
 async fn main() {
