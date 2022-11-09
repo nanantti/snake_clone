@@ -18,10 +18,19 @@ impl Body {
     pub fn drop_last(&mut self) {
         self.sections.pop_front();
     }
+
+    pub fn collision(&self, tile: (i32, i32)) -> bool {
+        for section in &self.sections {
+            if tile == *section {
+                return true;
+            }
+        }
+        false
+    }
 }
 
 #[cfg(test)]
-mod tests_grid {
+mod tests {
     use super::*;
 
     #[test]
@@ -53,5 +62,13 @@ mod tests_grid {
         body.add((1, 1));
         body.drop_last();
         assert_eq! {body.sections[0], (1, 1)}
+    }
+
+    #[test]
+    fn collision_example() {
+        let mut body = Body::new();
+        body.add((0, 1));
+        assert_eq! {body.collision((0, 1)), true};
+        assert_eq! {body.collision((1, 1)), false};
     }
 }
