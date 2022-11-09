@@ -37,7 +37,7 @@ async fn main() {
 
         let current_time = engine::get_time();
         if current_time - last_step_time > STEP_DURATION_SECONDS {
-            player.update(&engine::get_active_move_keys());
+            player.update(&engine::get_active_move_keys(), false);
             last_step_time = current_time;
         }
         engine::await_next_frame().await

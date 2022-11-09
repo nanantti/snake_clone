@@ -71,4 +71,12 @@ mod tests {
         assert_eq! {body.collision((0, 1)), true};
         assert_eq! {body.collision((1, 1)), false};
     }
+
+    #[test]
+    fn if_drop_last_in_empty_body_does_nothing() {
+        let mut body = Body::new();
+        assert_eq! {body.sections.len(), 0}
+        body.drop_last();
+        assert_eq! {body.sections.len(), 0}
+    }
 }
