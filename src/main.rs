@@ -1,4 +1,5 @@
 mod engine;
+mod fruit_generator;
 mod grid;
 mod player;
 

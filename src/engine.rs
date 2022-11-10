@@ -57,3 +57,12 @@ pub fn get_active_move_keys() -> MoveKeys {
         right: macroquad::prelude::is_key_down(macroquad::prelude::KeyCode::D),
     }
 }
+
+// Random
+pub fn set_rand_seed(seed: u64) {
+    macroquad::rand::srand(seed);
+}
+
+pub fn gen_range<T: macroquad::rand::RandomRange>(low: T, high: T) -> T {
+    macroquad::rand::gen_range::<T>(low, high)
+}
