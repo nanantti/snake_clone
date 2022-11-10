@@ -34,4 +34,19 @@ mod tests {
         gen.set_rand_seed(0);
         assert_eq! {gen.random_tile(), (2, 1)}
     }
+
+    #[test]
+    fn rolled_tile_is_inside_grid() {
+        let mut gen = FruitGenerator::new(&CELL_SIZE);
+        for seed in 0..999 {
+            gen.set_rand_seed(seed);
+            let tile = gen.random_tile();
+
+            assert! {0 <= tile.0}
+            assert! {tile.0 < CELL_SIZE.0}
+
+            assert! {0 <= tile.1}
+            assert! {tile.1 < CELL_SIZE.1}
+        }
+    }
 }
