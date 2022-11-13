@@ -10,6 +10,41 @@ pub struct MoveKeys {
     pub right: bool,
 }
 
+pub struct Game<'a> {
+    step_duration_seconds: f64,
+    n_cells: &'a(i32, i32),
+    game_grid: grid::Grid<'a>,
+    snake: player::Player<'a>,
+    last_step_time: f64,
+}
+
+impl Game<'_> {
+    pub fn new(n_cells: &(i32, i32), step_duration_seconds_: f64) -> Game {
+        Game {
+            n_cells: n_cells,
+            step_duration_seconds: step_duration_seconds_,
+            game_grid: grid::Grid {
+                number_of_cells: n_cells,
+                screen_size: (engine::get_screen_width(), engine::get_screen_height()),
+            },
+            snake: player::Player::new((0, 0), n_cells),
+            last_step_time: engine::get_time(),
+        }
+    }
+
+    pub fn update(&mut self) {
+        self.game_grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
+        engine::clear_background();
+        self.snake.draw(&self.game_grid);
+
+        let current_time = engine::get_time();
+        if current_time - self.last_step_time > self.step_duration_seconds {
+            self.snake.update(&engine::get_active_move_keys(), true);
+            self.last_step_time = current_time;
+        }
+    }
+}
+
 // TODO:
 // add fruit
 // add interaction between snake and fruit
@@ -31,22 +66,9 @@ fn roll_fruit_location(
 async fn main() {
     const STEP_DURATION_SECONDS: f64 = 1.0 / 10.0;
     let n_cells = (24, 24);
-    let mut grid = grid::Grid {
-        number_of_cells: &n_cells,
-        screen_size: (engine::get_screen_width(), engine::get_screen_height()),
-    };
-    let mut player = player::Player::new((12, 12), &n_cells);
-    let mut last_step_time = engine::get_time();
+    let mut game = Game::new(&n_cells, STEP_DURATION_SECONDS);
     loop {
-        grid.update_screen_size((engine::get_screen_width(), engine::get_screen_height()));
-        engine::clear_background();
-        player.draw(&grid);
-
-        let current_time = engine::get_time();
-        if current_time - last_step_time > STEP_DURATION_SECONDS {
-            player.update(&engine::get_active_move_keys(), true);
-            last_step_time = current_time;
-        }
+        game.update();
         engine::await_next_frame().await
     }
 }
