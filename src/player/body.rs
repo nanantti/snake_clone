@@ -19,9 +19,9 @@ impl Body {
         self.sections.pop_front();
     }
 
-    pub fn collision(&self, tile: (i32, i32)) -> bool {
+    pub fn collision(&self, tile: &(i32, i32)) -> bool {
         for section in &self.sections {
-            if tile == *section {
+            if tile == section {
                 return true;
             }
         }
@@ -74,8 +74,8 @@ mod tests {
     fn collision_example() {
         let mut body = Body::new();
         body.add((0, 1));
-        assert_eq! {body.collision((0, 1)), true};
-        assert_eq! {body.collision((1, 1)), false};
+        assert_eq! {body.collision(&(0, 1)), true};
+        assert_eq! {body.collision(&(1, 1)), false};
     }
 
     #[test]

@@ -33,6 +33,9 @@ mod tests {
         let mut gen = FruitGenerator::new(&CELL_SIZE);
         gen.set_rand_seed(0);
         assert_eq! {gen.random_tile(), (2, 1)}
+        assert_eq! {gen.random_tile(), (1, 2)}
+        assert_eq! {gen.random_tile(), (2, 1)}
+        assert_eq! {gen.random_tile(), (0, 0)}
     }
 
     #[test]

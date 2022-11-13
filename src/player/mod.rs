@@ -34,6 +34,13 @@ impl Player<'_> {
         self.draw_body(gd);
     }
 
+    pub fn collision(&self, tile: &(i32, i32)) -> bool {
+        if *tile == self.head.get_location() {
+            return true;
+        }
+        return self.body.collision(tile);
+    }
+
     fn draw_head(&self, gd: &grid::Grid) {
         let center = gd.get_cell_center(self.get_head_location());
         engine::draw_triangle(
@@ -75,17 +82,30 @@ mod tests {
 
         player.update(&NO_PRESS, true);
         assert_eq! {player.get_head_location(), (4, 0)};
-        assert_eq! {player.body.collision((5 ,0)), true};
+        assert_eq! {player.body.collision(&(5 ,0)), true};
 
         player.update(&NO_PRESS, true);
         assert_eq! {player.get_head_location(), (3, 0)};
-        assert_eq! {player.body.collision((4 ,0)), true};
-        assert_eq! {player.body.collision((5 ,0)), true};
+        assert_eq! {player.body.collision(&(4 ,0)), true};
+        assert_eq! {player.body.collision(&(5 ,0)), true};
 
         player.update(&NO_PRESS, false);
         assert_eq! {player.get_head_location(), (2, 0)};
-        assert_eq! {player.body.collision((3 ,0)), true};
-        assert_eq! {player.body.collision((4 ,0)), true};
-        assert_eq! {player.body.collision((5 ,0)), false};
+        assert_eq! {player.body.collision(&(3 ,0)), true};
+        assert_eq! {player.body.collision(&(4 ,0)), true};
+        assert_eq! {player.body.collision(&(5 ,0)), false};
+    }
+
+    #[test]
+    fn player_collision() {
+        let mut player = Player::new((5, 0), &CELL_SIZE);
+        assert_eq! {player.collision(&(5, 0)), true};
+        assert_eq! {player.collision(&(4, 0)), false};
+        assert_eq! {player.collision(&(3, 0)), false};
+
+        player.update(&NO_PRESS, true);
+        assert_eq! {player.collision(&(5, 0)), true};
+        assert_eq! {player.collision(&(4, 0)), true};
+        assert_eq! {player.collision(&(3, 0)), false};
     }
 }
