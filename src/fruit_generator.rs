@@ -5,7 +5,7 @@ pub struct FruitGenerator<'a> {
 }
 
 impl FruitGenerator<'_> {
-    pub fn new<'a>(n_cells: &'a (i32, i32), seed: u64) -> FruitGenerator<'a> {
+    pub fn new(n_cells: &(i32, i32), seed: u64) -> FruitGenerator {
         engine::set_rand_seed(seed);
         FruitGenerator {
             number_of_cells: n_cells,

@@ -39,7 +39,7 @@ impl Player<'_> {
         if *tile == self.head.get_location() {
             return true;
         }
-        return self.body.collision(tile);
+        self.body.collision(tile)
     }
 
     pub fn self_collision(&self) -> bool {
