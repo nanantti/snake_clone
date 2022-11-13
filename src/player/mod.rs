@@ -42,6 +42,10 @@ impl Player<'_> {
         return self.body.collision(tile);
     }
 
+    pub fn self_collision(&self) -> bool {
+        self.body.collision(&self.get_head_location())
+    }
+
     fn draw_head(&self, gd: &grid::Grid) {
         let center = gd.get_cell_center(self.get_head_location());
         engine::draw_triangle(
@@ -80,6 +84,27 @@ mod tests {
         right: false,
     };
 
+    const UP_PRESS: MoveKeys = MoveKeys {
+        up: true,
+        down: false,
+        left: false,
+        right: false,
+    };
+
+    const DOWN_PRESS: MoveKeys = MoveKeys {
+        up: false,
+        down: true,
+        left: false,
+        right: false,
+    };
+
+    const RIGHT_PRESS: MoveKeys = MoveKeys {
+        up: false,
+        down: false,
+        left: false,
+        right: true,
+    };
+
     const CELL_SIZE: (i32, i32) = (5, 5);
 
     #[test]
@@ -115,5 +140,18 @@ mod tests {
         assert_eq! {player.collision(&(5, 0)), true};
         assert_eq! {player.collision(&(4, 0)), true};
         assert_eq! {player.collision(&(3, 0)), false};
+    }
+
+    #[test]
+    fn self_collision_detection() {
+        let mut player = Player::new((3, 0), &CELL_SIZE);
+        player.update(&NO_PRESS);
+        assert_eq!(player.self_collision(), false);
+        player.update(&DOWN_PRESS);
+        assert_eq!(player.self_collision(), false);
+        player.update(&RIGHT_PRESS);
+        assert_eq!(player.self_collision(), false);
+        player.update(&UP_PRESS);
+        assert_eq!(player.self_collision(), true);
     }
 }

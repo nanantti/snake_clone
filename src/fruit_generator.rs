@@ -26,15 +26,6 @@ mod tests {
     const CELL_SIZE: (i32, i32) = (3, 3);
 
     #[test]
-    fn roll_fruit_location() {
-        let mut gen = FruitGenerator::new(&CELL_SIZE, 0);
-        assert_eq! {gen.random_tile(), (2, 1)}
-        assert_eq! {gen.random_tile(), (1, 2)}
-        assert_eq! {gen.random_tile(), (2, 1)}
-        assert_eq! {gen.random_tile(), (0, 0)}
-    }
-
-    #[test]
     fn rolled_tile_is_inside_grid() {
         for seed in 0..999 {
             let mut gen = FruitGenerator::new(&CELL_SIZE, seed);

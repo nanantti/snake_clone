@@ -65,6 +65,10 @@ impl Game<'_> {
         self.game_grid.update_screen_size(screen_size);
     }
 
+    pub fn check_game_over(&self) -> bool {
+        self.snake.self_collision()
+    }
+
     fn get_player_inital_location(screen_size: (i32, i32)) -> (i32, i32) {
         (screen_size.0 / 2, screen_size.1 / 2)
     }
@@ -90,7 +94,6 @@ impl Game<'_> {
 
 // TODO:
 // make game faster as snake grows
-// add game over if snake touches self
 
 #[macroquad::main("Snake")]
 async fn main() {
@@ -108,6 +111,15 @@ async fn main() {
         game.update_screen_size(engine::get_screen_size());
         game.update(engine::get_time(), &engine::get_active_move_keys());
         game.draw();
+        if game.check_game_over() {
+            game = Game::new(
+                &n_cells,
+                STEP_DURATION_SECONDS,
+                engine::get_screen_size(),
+                engine::get_time(),
+                0,
+            );
+        }
         engine::await_next_frame().await
     }
 }
