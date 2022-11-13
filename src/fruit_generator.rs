@@ -5,14 +5,11 @@ pub struct FruitGenerator<'a> {
 }
 
 impl FruitGenerator<'_> {
-    pub fn new<'a>(n_cells: &'a (i32, i32)) -> FruitGenerator<'a> {
+    pub fn new<'a>(n_cells: &'a (i32, i32), seed: u64) -> FruitGenerator<'a> {
+        engine::set_rand_seed(seed);
         FruitGenerator {
             number_of_cells: n_cells,
         }
-    }
-
-    pub fn set_rand_seed(&mut self, seed: u64) {
-        engine::set_rand_seed(seed);
     }
 
     pub fn random_tile(&mut self) -> (i32, i32) {
@@ -30,8 +27,7 @@ mod tests {
 
     #[test]
     fn roll_fruit_location() {
-        let mut gen = FruitGenerator::new(&CELL_SIZE);
-        gen.set_rand_seed(0);
+        let mut gen = FruitGenerator::new(&CELL_SIZE, 0);
         assert_eq! {gen.random_tile(), (2, 1)}
         assert_eq! {gen.random_tile(), (1, 2)}
         assert_eq! {gen.random_tile(), (2, 1)}
@@ -40,9 +36,8 @@ mod tests {
 
     #[test]
     fn rolled_tile_is_inside_grid() {
-        let mut gen = FruitGenerator::new(&CELL_SIZE);
         for seed in 0..999 {
-            gen.set_rand_seed(seed);
+            let mut gen = FruitGenerator::new(&CELL_SIZE, seed);
             let tile = gen.random_tile();
 
             assert! {0 <= tile.0}

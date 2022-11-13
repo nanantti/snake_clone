@@ -15,6 +15,8 @@ pub struct Game<'a> {
     game_grid: grid::Grid<'a>,
     snake: player::Player<'a>,
     last_step_time: f64,
+    generator: fruit_generator::FruitGenerator<'a>,
+    fruit_location: (i32, i32),
 }
 
 impl Game<'_> {
@@ -23,9 +25,10 @@ impl Game<'_> {
         step_duration_seconds_: f64,
         screen_size: (f32, f32),
         timestamp: f64,
+        rng_seed: u64,
     ) -> Game {
         let snake_zero = Game::get_player_inital_location(*n_cells);
-        Game {
+        let mut new_game = Game {
             step_duration_seconds: step_duration_seconds_,
             game_grid: grid::Grid {
                 number_of_cells: n_cells,
@@ -33,7 +36,11 @@ impl Game<'_> {
             },
             snake: player::Player::new(snake_zero, n_cells),
             last_step_time: timestamp,
-        }
+            generator: fruit_generator::FruitGenerator::new(n_cells, rng_seed),
+            fruit_location: (-1, -1),
+        };
+        new_game.fruit_location = new_game.roll_fruit_location();
+        new_game
     }
 
     pub fn update(&mut self, current_time: f64, active_keys: &MoveKeys) {
@@ -52,6 +59,14 @@ impl Game<'_> {
     fn get_player_inital_location(screen_size: (i32, i32)) -> (i32, i32) {
         (screen_size.0 / 2, screen_size.1 / 2)
     }
+
+    fn roll_fruit_location(&mut self) -> (i32, i32) {
+        let mut location = self.generator.random_tile();
+        while self.snake.collision(&location) {
+            location = self.generator.random_tile();
+        }
+        location
+    }
 }
 
 // TODO:
@@ -59,17 +74,6 @@ impl Game<'_> {
 // add interaction between snake and fruit
 // make game faster as snake grows
 // add game over if snake touches self
-
-fn roll_fruit_location(
-    snake: &player::Player,
-    gen: &mut fruit_generator::FruitGenerator,
-) -> (i32, i32) {
-    let mut location = gen.random_tile();
-    while snake.collision(&location) {
-        location = gen.random_tile();
-    }
-    location
-}
 
 #[macroquad::main("Snake")]
 async fn main() {
@@ -80,6 +84,7 @@ async fn main() {
         STEP_DURATION_SECONDS,
         engine::get_screen_size(),
         engine::get_time(),
+        0,
     );
     loop {
         engine::clear_background();
@@ -99,24 +104,23 @@ mod tests {
 
     #[test]
     fn snake_starts_at_middle_of_screen_even() {
-        let game = Game::new(&CELL_SIZE_3, 1.0, (1.0, 1.0), 0.0);
+        let game = Game::new(&CELL_SIZE_3, 1.0, (1.0, 1.0), 0.0, 0);
         assert_eq! { game.snake.get_head_location(), (1, 1) }
     }
 
     #[test]
     fn snake_starts_at_middle_of_screen_odd() {
-        let game = Game::new(&CELL_SIZE_4, 1.0, (1.0, 1.0), 0.0);
+        let game = Game::new(&CELL_SIZE_4, 1.0, (1.0, 1.0), 0.0, 0);
         assert_eq! { game.snake.get_head_location(), (2, 2) }
     }
 
     #[test]
-    fn fruit_generated_where_snake_is_gets_rerolled() {
-        let mut gen = fruit_generator::FruitGenerator::new(&CELL_SIZE);
-        let player = player::Player::new((1, 0), &CELL_SIZE);
-        gen.set_rand_seed(0);
+    fn fruit_is_not_generated_in_space_occupied_by_snake() {
+        for seed in 0..999 {
+            let game = Game::new(&CELL_SIZE, 1.0, (1.0, 1.0), 0.0, seed);
+            let snake_location = game.snake.get_head_location();
 
-        assert_eq! {gen.random_tile(), (1, 0)}
-
-        assert_eq! {roll_fruit_location(&player, &mut gen), (1, 1)}
+            assert_ne! {game.fruit_location, snake_location}
+        }
     }
 }
