@@ -48,6 +48,7 @@ impl Player<'_> {
             center.1,
             gd.get_cell_size(),
             self.head.get_angle(),
+            engine::SNAKE_COLOR,
         );
     }
 

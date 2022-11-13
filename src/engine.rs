@@ -25,7 +25,13 @@ fn get_screen_width() -> f32 {
     macroquad::prelude::screen_width()
 }
 
-pub fn draw_triangle(x: f32, y: f32, base: f32, rotation_degrees: f32) {
+pub fn draw_triangle(
+    x: f32,
+    y: f32,
+    base: f32,
+    rotation_degrees: f32,
+    color: macroquad::prelude::Color,
+) {
     let center = macroquad::math::Vec2 { x, y };
     let a_half = 0.5 * base;
     let rotation =
@@ -43,7 +49,7 @@ pub fn draw_triangle(x: f32, y: f32, base: f32, rotation_degrees: f32) {
         center + rotation.rotate(a1),
         center + rotation.rotate(a2),
         center + rotation.rotate(a3),
-        SNAKE_COLOR,
+        color,
     );
 }
 
