@@ -93,6 +93,7 @@ impl Game<'_> {
 }
 
 // TODO:
+// web game
 // make game faster as snake grows
 
 #[macroquad::main("Snake")]
