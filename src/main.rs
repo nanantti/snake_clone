@@ -29,20 +29,18 @@ impl Game<'_> {
             step_duration_seconds: step_duration_seconds_,
             game_grid: grid::Grid {
                 number_of_cells: n_cells,
-                screen_size: screen_size,
+                screen_size,
             },
             snake: player::Player::new(snake_zero, n_cells),
             last_step_time: timestamp,
         }
     }
 
-    pub fn update(&mut self) {
-        engine::clear_background();
+    pub fn update(&mut self, current_time: f64, active_keys: &MoveKeys) {
         self.snake.draw(&self.game_grid);
 
-        let current_time = engine::get_time();
         if current_time - self.last_step_time > self.step_duration_seconds {
-            self.snake.update(&engine::get_active_move_keys(), true);
+            self.snake.update(active_keys, true);
             self.last_step_time = current_time;
         }
     }
@@ -73,10 +71,6 @@ fn roll_fruit_location(
     location
 }
 
-fn get_screen_size() -> (f32, f32) {
-    (engine::get_screen_width(), engine::get_screen_height())
-}
-
 #[macroquad::main("Snake")]
 async fn main() {
     const STEP_DURATION_SECONDS: f64 = 1.0 / 10.0;
@@ -84,12 +78,13 @@ async fn main() {
     let mut game = Game::new(
         &n_cells,
         STEP_DURATION_SECONDS,
-        get_screen_size(),
+        engine::get_screen_size(),
         engine::get_time(),
     );
     loop {
-        game.update_screen_size(get_screen_size());
-        game.update();
+        engine::clear_background();
+        game.update_screen_size(engine::get_screen_size());
+        game.update(engine::get_time(), &engine::get_active_move_keys());
         engine::await_next_frame().await
     }
 }

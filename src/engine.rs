@@ -9,11 +9,15 @@ pub fn draw_circle(x: f32, y: f32, r: f32) {
     macroquad::prelude::draw_circle(x, y, r, macroquad::prelude::BLUE);
 }
 
-pub fn get_screen_height() -> f32 {
+pub fn get_screen_size() -> (f32, f32) {
+    (get_screen_width(), get_screen_height())
+}
+
+fn get_screen_height() -> f32 {
     macroquad::prelude::screen_height()
 }
 
-pub fn get_screen_width() -> f32 {
+fn get_screen_width() -> f32 {
     macroquad::prelude::screen_width()
 }
 
