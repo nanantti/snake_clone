@@ -54,8 +54,7 @@ impl Game<'_> {
             let is_snake_growing_now = self.snake.collision(&self.fruit_location);
             if is_snake_growing_now {
                 self.fruit_location = self.roll_fruit_location();
-            }
-            else {
+            } else {
                 self.snake.drop_last();
             }
             self.last_step_time = current_time;
