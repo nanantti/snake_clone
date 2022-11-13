@@ -43,12 +43,21 @@ impl Game<'_> {
         new_game
     }
 
-    pub fn update(&mut self, current_time: f64, active_keys: &MoveKeys) {
+    pub fn draw(&self) {
         self.snake.draw(&self.game_grid);
         self.draw_fruit();
+    }
 
+    pub fn update(&mut self, current_time: f64, active_keys: &MoveKeys) {
         if current_time - self.last_step_time > self.step_duration_seconds {
-            self.snake.update(active_keys, true);
+            self.snake.update(active_keys);
+            let is_snake_growing_now = self.snake.collision(&self.fruit_location);
+            if is_snake_growing_now {
+                self.fruit_location = self.roll_fruit_location();
+            }
+            else {
+                self.snake.drop_last();
+            }
             self.last_step_time = current_time;
         }
     }
@@ -81,8 +90,6 @@ impl Game<'_> {
 }
 
 // TODO:
-// add fruit
-// add interaction between snake and fruit
 // make game faster as snake grows
 // add game over if snake touches self
 
@@ -101,6 +108,7 @@ async fn main() {
         engine::clear_background();
         game.update_screen_size(engine::get_screen_size());
         game.update(engine::get_time(), &engine::get_active_move_keys());
+        game.draw();
         engine::await_next_frame().await
     }
 }
@@ -108,6 +116,13 @@ async fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    const NO_PRESS: MoveKeys = MoveKeys {
+        up: false,
+        down: false,
+        left: false,
+        right: false,
+    };
 
     const CELL_SIZE: (i32, i32) = (2, 2);
     const CELL_SIZE_3: (i32, i32) = (3, 3);
@@ -133,5 +148,16 @@ mod tests {
 
             assert_ne! {game.fruit_location, snake_location}
         }
+    }
+
+    #[test]
+    fn when_fruit_is_eaten_new_fruit_rolls_and_snake_grows() {
+        // Start snake at (2, 2) going left. Place fruit in (1, 2)
+        let mut game = Game::new(&CELL_SIZE_4, 1.0, (1.0, 1.0), 0.0, 0);
+        game.fruit_location = (1, 2);
+        game.update(2.0, &NO_PRESS); // Fruit gets eaten
+        assert_ne! {game.fruit_location, (1,2)}
+        assert_eq! {game.snake.collision(&(1 ,2)), true};
+        assert_eq! {game.snake.collision(&(2 ,2)), true};
     }
 }

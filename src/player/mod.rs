@@ -17,12 +17,13 @@ impl Player<'_> {
         }
     }
 
-    pub fn update(&mut self, keys: &MoveKeys, grow: bool) {
+    pub fn update(&mut self, keys: &MoveKeys) {
         self.body.add(self.head.get_location());
         self.head.update(keys);
-        if !grow {
-            self.body.drop_last();
-        }
+    }
+
+    pub fn drop_last(&mut self) {
+        self.body.drop_last();
     }
 
     pub fn get_head_location(&self) -> (i32, i32) {
@@ -86,16 +87,17 @@ mod tests {
         let mut player = Player::new((5, 0), &CELL_SIZE);
         assert_eq! {player.get_head_location(), (5, 0)};
 
-        player.update(&NO_PRESS, true);
+        player.update(&NO_PRESS);
         assert_eq! {player.get_head_location(), (4, 0)};
         assert_eq! {player.body.collision(&(5 ,0)), true};
 
-        player.update(&NO_PRESS, true);
+        player.update(&NO_PRESS);
         assert_eq! {player.get_head_location(), (3, 0)};
         assert_eq! {player.body.collision(&(4 ,0)), true};
         assert_eq! {player.body.collision(&(5 ,0)), true};
 
-        player.update(&NO_PRESS, false);
+        player.update(&NO_PRESS);
+        player.drop_last();
         assert_eq! {player.get_head_location(), (2, 0)};
         assert_eq! {player.body.collision(&(3 ,0)), true};
         assert_eq! {player.body.collision(&(4 ,0)), true};
@@ -109,7 +111,7 @@ mod tests {
         assert_eq! {player.collision(&(4, 0)), false};
         assert_eq! {player.collision(&(3, 0)), false};
 
-        player.update(&NO_PRESS, true);
+        player.update(&NO_PRESS);
         assert_eq! {player.collision(&(5, 0)), true};
         assert_eq! {player.collision(&(4, 0)), true};
         assert_eq! {player.collision(&(3, 0)), false};
