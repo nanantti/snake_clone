@@ -1,12 +1,16 @@
 use super::MoveKeys;
 
+pub const SNAKE_COLOR: macroquad::prelude::Color = macroquad::prelude::RED;
+const BACKGROUND_COLOR: macroquad::prelude::Color = macroquad::prelude::BLACK;
+pub const FRUIT_COLOR: macroquad::prelude::Color = macroquad::prelude::GREEN;
+
 // Graphics
 pub fn clear_background() {
-    macroquad::prelude::clear_background(macroquad::prelude::GRAY);
+    macroquad::prelude::clear_background(BACKGROUND_COLOR);
 }
 
-pub fn draw_circle(x: f32, y: f32, r: f32) {
-    macroquad::prelude::draw_circle(x, y, r, macroquad::prelude::BLUE);
+pub fn draw_circle(x: f32, y: f32, r: f32, color: macroquad::prelude::Color) {
+    macroquad::prelude::draw_circle(x, y, r, color);
 }
 
 pub fn get_screen_size() -> (f32, f32) {
@@ -39,7 +43,7 @@ pub fn draw_triangle(x: f32, y: f32, base: f32, rotation_degrees: f32) {
         center + rotation.rotate(a1),
         center + rotation.rotate(a2),
         center + rotation.rotate(a3),
-        macroquad::prelude::BLUE,
+        SNAKE_COLOR,
     );
 }
 

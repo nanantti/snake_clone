@@ -59,7 +59,12 @@ impl Player<'_> {
 
     fn draw_circle_in_tile(&self, tile: (i32, i32), gd: &grid::Grid) {
         let center = gd.get_cell_center(tile);
-        engine::draw_circle(center.0, center.1, gd.get_cell_size() * 0.50);
+        engine::draw_circle(
+            center.0,
+            center.1,
+            gd.get_cell_size() * 0.50,
+            engine::SNAKE_COLOR,
+        );
     }
 }
 

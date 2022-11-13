@@ -45,6 +45,7 @@ impl Game<'_> {
 
     pub fn update(&mut self, current_time: f64, active_keys: &MoveKeys) {
         self.snake.draw(&self.game_grid);
+        self.draw_fruit();
 
         if current_time - self.last_step_time > self.step_duration_seconds {
             self.snake.update(active_keys, true);
@@ -66,6 +67,16 @@ impl Game<'_> {
             location = self.generator.random_tile();
         }
         location
+    }
+
+    fn draw_fruit(&self) {
+        let center = self.game_grid.get_cell_center(self.fruit_location);
+        engine::draw_circle(
+            center.0,
+            center.1,
+            self.game_grid.get_cell_size() * 0.50,
+            engine::FRUIT_COLOR,
+        );
     }
 }
 
