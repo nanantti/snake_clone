@@ -1,3 +1,3 @@
 # Snake
 
-[Play!](https://url-to-game)
+[Play!](https://nanantti.github.io/snake_clone/)
