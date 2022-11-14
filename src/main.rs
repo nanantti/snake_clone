@@ -99,7 +99,7 @@ impl Game<'_> {
 #[macroquad::main("Snake")]
 async fn main() {
     const STEP_DURATION_SECONDS: f64 = 1.0 / 10.0;
-    let n_cells = (24, 24);
+    let n_cells = (12, 12);
     let mut game = Game::new(
         &n_cells,
         STEP_DURATION_SECONDS,
