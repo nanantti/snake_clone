@@ -23,7 +23,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  job1:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
       run: cargo test --verbose
 
   build:
-    needs: job1
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
