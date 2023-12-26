@@ -23,4 +23,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: artifact
-        path: ./target/wasm32-unknown-unknown/release/snake_clone.wasm
+        path: ./target/wasm32-unknown-unknown/release/snake.wasm
