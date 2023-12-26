@@ -24,9 +24,11 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    
     steps:
+    - name: Run tests
+      run: cargo test --verbose
     - uses: actions/checkout@v3
     - name: Add Webasm target
       run: rustup target add wasm32-unknown-unknown
