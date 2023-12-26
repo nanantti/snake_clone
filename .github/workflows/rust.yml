@@ -45,13 +45,6 @@ jobs:
         path: ./wasm         # Destination path. Supports basic tilde expansion.
     - name: Display structure of downloaded files
       run: ls -R
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-    - name: Build with Jekyll
-      uses: actions/jekyll-build-pages@v1
-      with:
-        source: ./
-        destination: ./_site
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
 
